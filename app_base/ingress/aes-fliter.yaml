@@ -1,0 +1,15 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Filter
+metadata:
+  name: auth0-filter
+  namespace: default
+spec:
+  OAuth2:
+    authorizationURL: https://syork.us.auth0.com
+    extraAuthorizationParameters:
+      audience: https://syork.us.auth0.com/api/v2/
+    clientID: kbWUwoUwOkzEip6Gojaz1ddKSlBDs04Z
+    secret: CLIENT_SECRET
+    protectedOrigins:
+      - origin: https://york.haus

@@ -1,0 +1,22 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ceph-csi-rbd
+  namespace: argocd
+spec:
+  destination:
+    namespace: ceph-csi-rbd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      valuesFiles: ceph-csi-rbd-values.yaml
+    chart: ceph-csi-rbd
+    repoURL: https://ceph.github.io/csi-charts
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
