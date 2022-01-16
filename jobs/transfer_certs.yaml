@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: copy-certs-on-renew
+spec:
+  schedule: 4 * * * * ?
+  template:
+    metadata:
+      name: copy-certs-on-renew
+    spec:
+      containers:
+        - image: busybox
+          name: copy-certs-on-renew
+          args:
+            - for h in $HOST_LIST; do {scp /etc/acme/ssl root@$h:/root/ssl/acme.crt ;}
+          volumeMounts:
+            - mountPath: "/etc/cert-hosts"
+              name: cert-hosts
+              readOnly: true
+            - mountPath: "/etc/acme/ssl"
+              name: ssl-crt
+              readOnly: true
+            - mountPath: "/root/.ssh"
+              name: rsa-key
+              readOnly: true
+      volumes:
+        - name: cert-hosts
+          configMap:
+            name: cert-hosts
+        - name: rsa-key
+          secret:
+            secretName: host-rsa-key
+            defaultMode: 0600
+        - name: ssl-cert
+          secret:
+            secretName: acme-crt-secret
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cert-hosts
+data:
+  cert-hosts: "adguard.twistedlife.space root@virginia.twistedlife.space"

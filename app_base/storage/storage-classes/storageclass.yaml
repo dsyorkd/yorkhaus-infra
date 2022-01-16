@@ -1,0 +1,84 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: csi-rbd-sc
+provisioner: rbd.csi.ceph.com
+parameters:
+  clusterID: 51299b01-c258-45e1-b03c-6f026df2e7ed
+  # (optional) If you want to use erasure coded pool with RBD, you need to
+  # create two pools. one erasure coded and one replicated.
+  # You need to specify the replicated pool here in the `pool` parameter, it is
+  # used for the metadata of the images.
+  # The erasure coded pool must be set as the `dataPool` parameter below.
+  # dataPool: <ec-data-pool>
+  # (required) Ceph pool into which the RBD image shall be created
+  # eg: pool: rbdpool
+  pool: rancher-storage
+  # Set thickProvision to true if you want RBD images to be fully allocated on
+  # creation (thin provisioning is the default).
+  thickProvision: "false"
+  # (required) RBD image features, CSI creates image with image-format 2
+  # CSI RBD currently supports only `layering` feature.
+  imageFeatures: layering
+
+  # (optional) mapOptions is a comma-separated list of map options.
+  # For krbd options refer
+  # https://docs.ceph.com/docs/master/man/8/rbd/#kernel-rbd-krbd-options
+  # For nbd options refer
+  # https://docs.ceph.com/docs/master/man/8/rbd-nbd/#options
+  # mapOptions: lock_on_read,queue_depth=1024
+
+  # (optional) unmapOptions is a comma-separated list of unmap options.
+  # For krbd options refer
+  # https://docs.ceph.com/docs/master/man/8/rbd/#kernel-rbd-krbd-options
+  # For nbd options refer
+  # https://docs.ceph.com/docs/master/man/8/rbd-nbd/#options
+  # unmapOptions: force
+
+  # The secrets have to contain Ceph credentials with required access
+  # to the 'pool'.
+  csi.storage.k8s.io/provisioner-secret-name: ceph-admin
+  csi.storage.k8s.io/provisioner-secret-namespace: default
+  csi.storage.k8s.io/controller-expand-secret-name: ceph-admin
+  csi.storage.k8s.io/controller-expand-secret-namespace: default
+  csi.storage.k8s.io/node-stage-secret-name: ceph-admin
+  csi.storage.k8s.io/node-stage-secret-namespace: default
+
+  # (optional) Specify the filesystem type of the volume. If not specified,
+  # csi-provisioner will set default as `ext4`.
+  csi.storage.k8s.io/fstype: ext4
+
+  # (optional) uncomment the following to use rbd-nbd as mounter
+  # on supported nodes
+  # mounter: rbd-nbd
+
+  # (optional) Prefix to use for naming RBD images.
+  # If omitted, defaults to "csi-vol-".
+  volumeNamePrefix: "rke-rbd-"
+
+  # Add topology constrained pools configuration, if topology based pools
+  # are setup, and topology constrained provisioning is required.
+  # For further information read TODO<doc>
+  # topologyConstrainedPools: |
+  #   [{"poolName":"pool0",
+  #     "dataPool":"ec-pool0" # optional, erasure-coded pool for data
+  #     "domainSegments":[
+  #       {"domainLabel":"region","value":"east"},
+  #       {"domainLabel":"zone","value":"zone1"}]},
+  #    {"poolName":"pool1",
+  #     "dataPool":"ec-pool1" # optional, erasure-coded pool for data
+  #     "domainSegments":[
+  #       {"domainLabel":"region","value":"east"},
+  #       {"domainLabel":"zone","value":"zone2"}]},
+  #    {"poolName":"pool2",
+  #     "dataPool":"ec-pool2" # optional, erasure-coded pool for data
+  #     "domainSegments":[
+  #       {"domainLabel":"region","value":"west"},
+  #       {"domainLabel":"zone","value":"zone1"}]}
+  #   ]
+
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+mountOptions:
+  - discard
