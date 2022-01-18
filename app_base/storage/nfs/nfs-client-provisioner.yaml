@@ -13,4 +13,4 @@ spec:
       releaseName: nfs-subdir-external-provisioner
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: storage
