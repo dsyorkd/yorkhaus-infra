@@ -4,7 +4,7 @@ kind: ServiceAccount
 metadata:
   name: rbd-csi-provisioner
   # replace with non-default namespace name
-  namespace: default
+  namespace: ceph-rbd-csi
 
 ---
 kind: ClusterRole
@@ -69,7 +69,7 @@ subjects:
   - kind: ServiceAccount
     name: rbd-csi-provisioner
     # replace with non-default namespace name
-    namespace: default
+    namespace: ceph-rbd-csi
 roleRef:
   kind: ClusterRole
   name: rbd-external-provisioner-runner
@@ -80,7 +80,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   # replace with non-default namespace name
-  namespace: default
+  namespace: ceph-rbd-csi
   name: rbd-external-provisioner-cfg
 rules:
   - apiGroups: [""]
