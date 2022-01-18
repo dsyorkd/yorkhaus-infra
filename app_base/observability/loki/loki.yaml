@@ -1,18 +1,12 @@
 ---
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: loki
-  namespace: argocd
-spec:
-  project: loki
-  destination:
-    namespace: observability
-    server: https://kubernetes.default.svc
-  source:
-    helm:
-      valuesFiles: loki-values.yaml
-      # renovate: registryUrl=https://grafana.github.io/helm-charts
+apiVersion: v2
+type: application
+name: loki
+version: 2.5.1
+appVersion: "2.1.0"
+dependencies:
+  - name:
+    # renovate: registryUrl=https://grafana.github.io/helm-charts
     chart: loki-stack
-    version: 2.6.0
+    version: 2.5.1
     repoURL: https://grafana.github.io/helm-charts
