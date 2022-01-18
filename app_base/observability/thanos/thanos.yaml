@@ -1,16 +1,11 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: thanos
-  namespace: argocd
-spec:
-  project: infra-project
-  source:
+apiVersion: v2
+type: application
+name: thanos
+version: 9.0.0
+appVersion: "0.24.0"
+dependencies:
+  - name:
+    # renovate: registryUrl=https://grafana.github.io/helm-charts
     chart: thanos
+    version: 9.0.0
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 8.3.0
-    helm:
-      releaseName: thanos
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: observability
