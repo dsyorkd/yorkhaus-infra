@@ -1,5 +1,7 @@
 resources:
-  - "csi/*.yaml"
+  - csi/ceph-csi-cephfs-values.yaml
+  - csi/secret.yaml
+  - csi/cephfs-csi.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: "storage"
+namespace: storage

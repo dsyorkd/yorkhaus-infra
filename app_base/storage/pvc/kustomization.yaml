@@ -1,5 +1,9 @@
 resources:
-  - "manifests/*.yaml"
+  - manifests/media-audiobooks-pvc.yaml
+  - manifests/media-downloads-pvc.yaml
+  - manifests/media-pvc.yaml
+  - manifests/pvc.yaml
+  - manifests/raw-block-pvc.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: storage

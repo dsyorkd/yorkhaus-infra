@@ -1,5 +1,7 @@
 resources:
-  - "manifests/*.yaml"
+  - manifests/ceph-storage.yaml
+  - manifests/nfs-storage.yaml
+  - manifests/storageclass.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: "storage"
+namespace: storage
