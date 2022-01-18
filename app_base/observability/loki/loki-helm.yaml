@@ -13,5 +13,4 @@ spec:
     chart: loki-stack
     helm:
       valueFiles:
-        - loki-helm.yaml
         - values.yaml
