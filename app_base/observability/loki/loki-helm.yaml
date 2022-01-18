@@ -12,4 +12,5 @@ spec:
     repoURL: https://grafana.github.io/helm-charts
     chart: loki-stack
     helm:
-      valuesFiles: loki-values.yaml
+      valuesFiles:
+        - loki-values.yaml
