@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: media
+    name: in-cluster
+  project: twisted-infra-app
+  source:
+    path: app_base/media
+    repoURL: https://github.com/dsyorkd/yorkhaus-infra.git
+    targetRevision: HEAD
