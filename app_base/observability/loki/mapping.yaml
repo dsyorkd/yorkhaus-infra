@@ -1,11 +1,11 @@
 apiVersion: getambassador.io/v3alpha1
 kind: Mapping
 metadata:
-  name: prometheus-tls-mapping
+  name: loki-tls-mapping
   namespace: observability
 spec:
   hostname: "twistedlife.space"
-  prefix: /
+  prefix: /loki/
   service: http://loki:3100
   allow_upgrade:
     - websocket
