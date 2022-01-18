@@ -2,6 +2,7 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: nfs-storage
+  namespace: storage
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: <ENTER_PROVISIONER_NAME_HERE>
