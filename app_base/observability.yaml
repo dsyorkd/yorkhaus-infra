@@ -14,3 +14,9 @@ spec:
     path: app_base/observability
     repoURL: https://github.com/dsyorkd/yorkhaus-infra.git
     targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+    automated:
+      selfHeal: true
+      prune: true
