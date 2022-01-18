@@ -4,8 +4,7 @@ name: thanos
 version: 9.0.0
 appVersion: "0.24.0"
 dependencies:
-  - name:
+  - name: thanos
     # renovate: registryUrl=https://grafana.github.io/helm-charts
-    chart: thanos
     version: 9.0.0
-    repoURL: https://charts.bitnami.com/bitnami
+    repository: https://charts.bitnami.com/bitnami
