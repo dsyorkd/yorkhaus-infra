@@ -24,3 +24,4 @@ data:
   keyring: |
 metadata:
   name: ceph-config
+  namespace: ceph-rbd-csi

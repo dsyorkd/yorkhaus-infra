@@ -2,12 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: raw-block-pvc
+  name: csi-cephfs-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
-  volumeMode: Block
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
-  storageClassName: csi-rbd-sc
+  storageClassName: csi-cephfs-sc

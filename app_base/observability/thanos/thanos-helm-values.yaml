@@ -1,0 +1,19 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/namespace-wide: "true"
+  creationTimestamp: null
+  name: thanos-helm-values
+  namespace: observability
+spec:
+  encryptedData:
+    values.yaml: AgCi5VfOpxWQnR2MgSc2LDUDs11sGUUyseyiTc9frpruHYN4UDcclpAi0D8OIDM+u9Qd39++Fwzz2etjOkgfVXFmLXd5W9+589xZMX38lXAFU+nwdGsGZWGC1809qN8vyqR005a7AYiq57q405XZiD8/oZA8Fu7cZjJ/J/QvreFhA8YFI3X8Ccx82suUXIXJZUkuoc0PbF06Mbk9aJsoEF2j8J+jSMdBIKQRYX6E+GUz09ulgleeN5ROw+afcHum+zk6ROzDKtsM4Zq3XaVeQ5PhmEZcGQx1IYn/unQTQa8GEBt+aI7tsCtF2JiOlQHGlteV1mH+Z9tfXmChPLVGCTj5iYEQiFReL1QY0h6EYfs5vO1qiOlwRHRV1xCTgzXokuKezy13+WcpTxIMBsg+zj7s5nc5T5Smg2HJuzIfO4+WYl8Pnl8UpwiPqYpJ785j1LN43RK1KFOSNfAKs895Hb4/TKAjmZe+8i+VLQ9ua1kJzCwpwWJYHOo9nea9iR1dATVvfEKrzXJ8qMChkimtuX3Fvrh7HmtnZcrPBCd2LupwL4TS3hBDWBfxcDRmLD2aF95KvuMmAW1WdrE24JoCSOJk1+g9GcidoVjZqWg9l63TRq6gS/tUfHAhsD5ItSq5/d3v1l26q4q2czhxJK9E/g17AXIn+uQl6Pv0V5qe/L15rhMMiTruWCyx7MARM6dWlpUT6RxLJxPJzt6ubyqBCHcrQhlphUZzX+zeK/NgiQc6yTwXWpuAkmsF2dmFmCcCnrkPZBQ5VN1d4AkngEyfyuo2PVBA3J2EReQjLJA=
+  template:
+    data: null
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/namespace-wide: "true"
+      creationTimestamp: null
+      name: thanos-helm-values
+      namespace: observability

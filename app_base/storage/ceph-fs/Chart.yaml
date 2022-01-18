@@ -1,0 +1,10 @@
+apiVersion: v2
+type: application
+name: ceph-csi-cephfs
+version: 0.1.0
+appVersion: "1.0"
+
+dependencies:
+  - name: ceph-csi-cephfs
+    version: 3.5.0
+    repository: https://ceph.github.io/csi-charts

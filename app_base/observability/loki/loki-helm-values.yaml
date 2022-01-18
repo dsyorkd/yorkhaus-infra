@@ -1,22 +1,19 @@
-{
-  "kind": "SealedSecret",
-  "apiVersion": "bitnami.com/v1alpha1",
-  "metadata": {
-    "name": "loki-helm-values",
-    "namespace": "observability",
-    "creationTimestamp": null
-  },
-  "spec": {
-    "template": {
-      "metadata": {
-        "name": "loki-helm-values",
-        "namespace": "observability",
-        "creationTimestamp": null
-      },
-      "data": null
-    },
-    "encryptedData": {
-      "config": "AgATp/+Zek0JgrazMlxhuhxN4F9vqJK3OhM7AZbFkUoVkNvLZso1VBGk/2LDXifJMkYQzxITUGD2f1Fn0YLtzwUp9lwxwMT0izHePZ+mMXB5oliuc6YS+vAJGFqzu+TkHelu2ymU+a6ADUn6M7XePq4Vuz1+0PrrKLT8wCjfTVAe9Ps28//P5kfvX49/poWrj4ZwpU3tN53xLRi6e6DdSAxjfz2ABccIt+2aiaS8+OWBX0HNp/E1zHMCsIk5kzxo8KkFGLMDLnIeGp/+Ox30KSjVPScQeaERJxZ2VLHHTXSNkbbgBx16bZKLpuCH5DqgAcgrH3arVpGbFJdTSCTrPLGNgYiJpXzwkhqDylh+HQUHIWRih4D2cy9pg1Khgrol6twFk6wh2yRR4qYR+2CKObPoiTg6TGDFVYaKtNAvODpRPqIL4yNuCbYWEo5I8Ud1KmNtHHZgphBXzmyc4LaeGCkwUEyk0rbhuoHYV0aU81i9ka5tD9Sfy1doQkgFwkzca5EUfxXK2ZM8Uq7grJ5pLtOHSDqOv1+QSfHfVE5RvTAVmTtOZPU+CIXWGaR5OMngZ4NUbsCrGfp/Yxw9eDxrAsNSvPJN1k9sq/LxQHNgAeU5Z4fLeyS99GY+HrQxWKqv1mXYOCf1VRZXKQhAlzjvkP/bcT5QSip38qaxw40iS8lZB8NYv+0zHEqoCObFUnxzIcqOBHhWvJz+c2hgArQgXZ6MuDSI7Nyr6aNd1Cat34kVgpUiQv3z09N8hyncEPlAUgLK8sDB3Kdybhb/YPWQt7bYL8+vLto+7okkXmUk0zRwhZ8BPcjaFd5JaJTCvXIZ0opVnkxTr2EBUKLmD++ZL5y6TUDOqHnPJC9auA56u+xR9Dqo0L6Q2G4fC6Y5HLMVUpTGseGoaJBNBBcmXs1VxaMVg+afTCqOYCqzXaN96NAsEkBrEnPHb7Vk9iwdMwF3HJby9fwKvco="
-    }
-  }
-}
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/namespace-wide: "true"
+  creationTimestamp: null
+  name: loki-helm-values
+  namespace: observability
+spec:
+  encryptedData:
+    values.yaml: AgC2GKrHcr5E+EMx7k2aPb5hNpE01m7piMmSoA+/vCGZebqQmMsAFoE1SlSzhgVyBWtzp1IFm8D2HdFBObk8mOxik+D1Xw4DhWen/h3qW6MfC0X+332+xaqEMXSzoNoxb4iEtcVdSonSHcj8KPS1O0bYSKWLEWU8boLezQARWJ7hX6xFwpS166Ga4lxeadjfzyehTXMHTn+b3d5X3idzEA1YMKc6UszzqYQIS4W7nNiFVedjRnzMxF9WHdnvZMVaulk6cUvM3i7RAprTWRXiRZF5Cwf2EeSfXH4bZHCkWVkisZLNnfgVg4GYq8++3uy1DJ+LWyeNoyMW+ZrApTZJ3PkqbG5oEnDQcBSKjR1q9PVSpmI2109aoytIHUNZJA0nyrIaQiRW6dchpjD3IpprsynqeeLd79KFy1MDr71dvSUm8cOa/SOAFBiRNKFbERkK35TRn1eDgAOKOPGxfTDTvrn+6hN973Gg41HvsgUtFCuVPcFiiIGkoQdVaWWbr4NvU0xzQw7Q/UOnzvfvaZaKR5KMBc5ODxxIyxnRaPt77HvhqL8viLHqy0EkSsTLPFqVU2wEZZ46SZy1TBru8KtvhoLUktu+u9zlEpjlg71lxLBGCyExMB7fCcC0HdMGHbKdPnZpbMXN2Y4dXyXplKqwVVfEcpa+NIJR7TmpPv7WiQKBFPV8FzfL1rI3kFACUQ+W0qiKXNeRM5RV26g7qTlJSjlgeSit0uPHD7xyIji+JhL9C0Mb+gdCkkKGqUpJiPsvu6MNBwDwxQXObIaz0wOjCZ08a64dqn1wYlWODHrh45FlDxWSgxM/6bdbuh3vDJgyoDWd6GaTybwrUO7ZdwpQGwlcMW40MuXOWJgtlL5VTlcjlR1fTY5BnPNn/T4qfCmD2e/8D0pJIf/4vuvFFv5FzEZ4wxXUYYZlCMM+O0nMOohokSnGVl0ZXlzguai8j9PoHRlvRoHotm6E+3F6vslTc7sVjT8isr2l4w7aXTDThKmD+HfYatdboeqM0tna/kgXV3t1UWWiapmN
+  template:
+    data: null
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/namespace-wide: "true"
+      creationTimestamp: null
+      name: loki-helm-values
+      namespace: observability
