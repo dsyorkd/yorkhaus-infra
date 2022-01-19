@@ -22,3 +22,15 @@ spec:
     automated:
       prune: true
       selfHeal: true
+
+---
+apiVersion: v2
+type: application
+name: loki-stack
+version: 2.5.1
+appVersion: "2.1.0"
+dependencies:
+  - name: kube-prometheus-stack
+    # renovate: registryUrl=https://grafana.github.io/helm-charts
+    version: 2.5.1
+    repository: https://prometheus-community.github.io/helm-charts
