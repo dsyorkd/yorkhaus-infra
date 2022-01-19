@@ -1,29 +1,3 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: loki-stack
-  namespace: observability
-  annotations:
-    argocd.argoproj.io/sync-wave: "-4"
-spec:
-  project: twisted-infra-app
-  destination:
-    namespace: observability
-    server: https://kubernetes.default.svc
-  source:
-    path: charts/loki-stack
-    targetRevision: 2.5.1
-    repoURL: https://grafana.github.io/helm-charts.git
-    chart: loki-stack
-    helm:
-      valueFiles:
-        - values.yaml
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-
----
 apiVersion: v2
 type: application
 name: loki-stack
