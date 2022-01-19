@@ -9,21 +9,7 @@ spec:
   service: http://prometheus:2381
   allow_upgrade:
     - websocket
----
-apiVersion: getambassador.io/v3alpha1
-kind: Host
-metadata:
-  name: prometheus-host
-  namespace: observability
-spec:
-  hostname: prom-server.twistedlife.space
-  acmeProvider:
-    authority: none
-  tlsSecret:
-    name: tls-prom-server-ingress
-  selector:
-    matchLabels:
-      hostname: prometheus
+
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -49,21 +35,6 @@ spec:
   service: http://alert-manager:9093
   allow_upgrade:
     - websocket
----
-apiVersion: getambassador.io/v3alpha1
-kind: Host
-metadata:
-  name: prom-alert-host
-  namespace: observability
-spec:
-  hostname: prom-alert.twistedlife.space
-  acmeProvider:
-    authority: none
-  tlsSecret:
-    name: tls-prom-alert-ingress
-  selector:
-    matchLabels:
-      hostname: alertmanager
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
