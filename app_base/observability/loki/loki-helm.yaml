@@ -8,6 +8,7 @@ spec:
     namespace: observability
     server: https://kubernetes.default.svc
   source:
+    path: charts/loki-stack
     repoURL: https://grafana.github.io/helm-charts
     chart: loki-stack
     helm:
