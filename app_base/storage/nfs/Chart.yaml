@@ -5,8 +5,6 @@ name: nfs-external-provisioner
 version: 4.0.14
 appVersion: "4.0.2"
 dependencies:
-  - name:
-    # renovate: registryUrl=https://grafana.github.io/helm-charts
-    chart: nfs-subdir-external-provisioner
+  - name: nfs-subdir-external-provisioner
     version: 4.0.14
-    repoURL: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner
+    repository: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner
