@@ -1,169 +1,169 @@
----
-namespaceOverride: "observability"
-prometheusOperator:
-  createCustomResource: true
-  # prometheusConfigReloaderImage:
-  #   repository: quay.io/coreos/prometheus-config-reloader
-  #   tag: v0.39.0
-  # configmapReloadImage:
-  #   repository: jimmidyson/configmap-reload
-  #   tag: v0.4.0
-  prometheusConfigReloader:
-    resources:
-      limits:
-        cpu: 200m
-  admissionWebhooks:
+kube-prometheus-stack:
+  namespaceOverride: "observability"
+  prometheusOperator:
+    createCustomResource: true
+    # prometheusConfigReloaderImage:
+    #   repository: quay.io/coreos/prometheus-config-reloader
+    #   tag: v0.39.0
+    # configmapReloadImage:
+    #   repository: jimmidyson/configmap-reload
+    #   tag: v0.4.0
+    prometheusConfigReloader:
+      resources:
+        limits:
+          cpu: 200m
+    admissionWebhooks:
+      enabled: false
+  alertmanager:
+    alertmanagerSpec:
+      storage:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: csi-rbd-sc
+            resources:
+              requests:
+                storage: 10Gi
+      podMetadata:
+        annotations:
+          backup.velero.io/backup-volumes: alertmanager-kube-prometheus-stack-alertmanager-db
+      podAntiAffinity: "hard"
+    ingress:
+      enabled: false
+    service:
+      externalIPs: ["172.29.240.56"]
+      loadBalancerIP: "172.29.240.56"
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+    config:
+      global:
+        resolve_timeout: 5m
+      route:
+        # group_by: ['alertname', 'job']
+        # group_wait: 30s
+        # group_interval: 5m
+        # repeat_interval: 6h
+        receiver: "slack-notifications"
+        # receiver: 'pagerduty'
+        routes:
+          - match:
+              alertname: Watchdog
+            receiver: "null"
+          - receiver: "pagerduty"
+            match:
+              severity: critical
+            continue: true
+          - receiver: "slack-notifications"
+      inhibit_rules:
+        - source_match:
+            severity: "critical"
+          target_match:
+            severity: "warning"
+          # Apply inhibition if the alertname is the same.
+          equal: ["alertname", "namespace"]
+      templates: ["*.tmpl"]
+    templateFiles:
+      pagerduty-custom.tmpl: |-
+        {{- define "pagerduty.custom.description" -}}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}{{- end -}}
+  nodeExporter:
+    enabled: true
+  prometheus-node-exporter:
+    prometheus:
+      monitor:
+        enabled: true
+        relabelings:
+          - action: replace
+            regex: (.*)
+            replacement: $1
+            sourceLabels:
+              - __meta_kubernetes_pod_node_name
+            targetLabel: instance
+    tolerations:
+      - key: "arm"
+        operator: "Exists"
+      - key: "armhf"
+        operator: "Exists"
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+  grafana:
     enabled: false
-alertmanager:
-  alertmanagerSpec:
-    storage:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: csi-rbd-sc
-          resources:
-            requests:
-              storage: 10Gi
-    podMetadata:
-      annotations:
-        backup.velero.io/backup-volumes: alertmanager-kube-prometheus-stack-alertmanager-db
-    podAntiAffinity: "hard"
-  ingress:
-    enabled: false
-  service:
-    externalIPs: ["172.29.240.56"]
-    loadBalancerIP: "172.29.240.56"
-    type: LoadBalancer
-    externalTrafficPolicy: Local
-  config:
-    global:
-      resolve_timeout: 5m
-    route:
-      # group_by: ['alertname', 'job']
-      # group_wait: 30s
-      # group_interval: 5m
-      # repeat_interval: 6h
-      receiver: "slack-notifications"
-      # receiver: 'pagerduty'
-      routes:
-        - match:
-            alertname: Watchdog
-          receiver: "null"
-        - receiver: "pagerduty"
-          match:
-            severity: critical
-          continue: true
-        - receiver: "slack-notifications"
-    inhibit_rules:
-      - source_match:
-          severity: "critical"
-        target_match:
-          severity: "warning"
-        # Apply inhibition if the alertname is the same.
-        equal: ["alertname", "namespace"]
-    templates: ["*.tmpl"]
-  templateFiles:
-    pagerduty-custom.tmpl: |-
-      {{- define "pagerduty.custom.description" -}}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}{{- end -}}
-nodeExporter:
-  enabled: true
-prometheus-node-exporter:
-  prometheus:
-    monitor:
-      enabled: true
-      relabelings:
+    forceDeployDashboards: true
+  kubelet:
+    enabled: true
+    serviceMonitor:
+      metricRelabelings:
         - action: replace
-          regex: (.*)
-          replacement: $1
           sourceLabels:
-            - __meta_kubernetes_pod_node_name
+            - node
           targetLabel: instance
-  tolerations:
-    - key: "arm"
-      operator: "Exists"
-    - key: "armhf"
-      operator: "Exists"
-    - key: "node-role.kubernetes.io/master"
-      operator: "Exists"
-grafana:
-  enabled: false
-  forceDeployDashboards: true
-kubelet:
-  enabled: true
-  serviceMonitor:
-    metricRelabelings:
-      - action: replace
-        sourceLabels:
-          - node
-        targetLabel: instance
-kubeApiServer:
-  enabled: true
-prometheus:
-  service:
-    externalIPs: ["172.29.240.55"]
-    loadBalancerIP: "172.29.240.55"
-    type: LoadBalancer
-    externalTrafficPolicy: Local
-  ingress:
-    enabled: false
-  prometheusSpec:
-    # image:
-    #   repository: quay.io/prometheus/prometheus
-    #   tag: v2.20.0
-    replicas: 2
-    replicaExternalLabelName: "replica"
-    ruleSelector: {}
-    ruleNamespaceSelector: {}
-    ruleSelectorNilUsesHelmValues: false
-    serviceMonitorSelector: {}
-    serviceMonitorNamespaceSelector: {}
-    serviceMonitorSelectorNilUsesHelmValues: false
-    podMonitorSelector: {}
-    podMonitorNamespaceSelector: {}
-    podMonitorSelectorNilUsesHelmValues: false
-    retention: 6h
-    enableAdminAPI: true
-    walCompression: true
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: csi-rbd-sc
-          resources:
-            requests:
-              storage: 10Gi
-    # tolerations:
-    # - key: "arm"
-    #   operator: "Exists"
-    podMetadata:
-      annotations:
-        backup.velero.io/backup-volumes: prometheus-kube-prometheus-stack-prometheus-db
-    thanos:
-      image: quay.io/thanos/thanos:v0.24.0
-      version: v0.24.0
-      objectStorageConfig:
-        name: thanos-objstore-secret
-        key: objstore.yml
-    resources:
-      requests:
-        memory: 2000Mi
-        cpu: 250m
-      limits:
-        memory: 4000Mi
-    # affinity:
-    #   podAntiAffinity:
-    #     requiredDuringSchedulingIgnoredDuringExecution:
-    #     - labelSelector:
-    #         matchExpressions:
-    #         - key: app.kubernetes.io/name
-    #           operator: In
-    #           values:
-    #           - prometheus
-    #       topologyKey: "kubernetes.io/hostname"
-    podAntiAffinity: "hard"
-  thanosService:
+  kubeApiServer:
     enabled: true
-  thanosServiceMonitor:
-    enabled: true
-valuesFrom:
-  - kind: Secret
-    name: "kube-prometheus-stack-helm-values"
-    optional: false
+  prometheus:
+    service:
+      externalIPs: ["172.29.240.55"]
+      loadBalancerIP: "172.29.240.55"
+      type: LoadBalancer
+      externalTrafficPolicy: Local
+    ingress:
+      enabled: false
+    prometheusSpec:
+      # image:
+      #   repository: quay.io/prometheus/prometheus
+      #   tag: v2.20.0
+      replicas: 2
+      replicaExternalLabelName: "replica"
+      ruleSelector: {}
+      ruleNamespaceSelector: {}
+      ruleSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: {}
+      serviceMonitorNamespaceSelector: {}
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelector: {}
+      podMonitorNamespaceSelector: {}
+      podMonitorSelectorNilUsesHelmValues: false
+      retention: 6h
+      enableAdminAPI: true
+      walCompression: true
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: csi-rbd-sc
+            resources:
+              requests:
+                storage: 10Gi
+      # tolerations:
+      # - key: "arm"
+      #   operator: "Exists"
+      podMetadata:
+        annotations:
+          backup.velero.io/backup-volumes: prometheus-kube-prometheus-stack-prometheus-db
+      thanos:
+        image: quay.io/thanos/thanos:v0.24.0
+        version: v0.24.0
+        objectStorageConfig:
+          name: thanos-objstore-secret
+          key: objstore.yml
+      resources:
+        requests:
+          memory: 2000Mi
+          cpu: 250m
+        limits:
+          memory: 4000Mi
+      # affinity:
+      #   podAntiAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #     - labelSelector:
+      #         matchExpressions:
+      #         - key: app.kubernetes.io/name
+      #           operator: In
+      #           values:
+      #           - prometheus
+      #       topologyKey: "kubernetes.io/hostname"
+      podAntiAffinity: "hard"
+    thanosService:
+      enabled: true
+    thanosServiceMonitor:
+      enabled: true
+#  valuesFrom:
+#    - kind: Secret
+#      name: "kube-prometheus-stack-helm-values"
+#      optional: false

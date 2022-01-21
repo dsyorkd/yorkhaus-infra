@@ -12,8 +12,3 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 appVersion: "1.0"
-dependencies:
-  - name: loki-stack
-    # renovate: registryUrl=https://grafana.github.io/helm-charts
-    version: v2.1.0
-    repository: https://grafana.github.io/helm-charts
