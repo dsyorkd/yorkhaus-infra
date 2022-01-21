@@ -1,4 +1,4 @@
-kube-prometheus-stack:
+kube-prometheus:
   namespaceOverride: "observability"
   prometheusOperator:
     createCustomResource: true
