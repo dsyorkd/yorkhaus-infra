@@ -1,6 +1,7 @@
 ---
 rbac:
   create: true
+configMapName: cephfs-csi-config
 csiConfig:
   - clusterID: "51299b01-c258-45e1-b03c-6f026df2e7ed"
     monitors:
