@@ -2,36 +2,32 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: csi-rbdplugin-provisioner
-  # replace with non-default namespace name
-  namespace: storage
+  name: csi-cephfsplugin-provisioner
   labels:
     app: csi-metrics
 spec:
   selector:
-    app: csi-rbdplugin-provisioner
+    app: csi-cephfsplugin-provisioner
   ports:
     - name: http-metrics
       port: 8080
       protocol: TCP
-      targetPort: 8680
+      targetPort: 8681
 
 ---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: csi-rbdplugin-provisioner
-  # replace with non-default namespace name
-  namespace: storage
+  name: csi-cephfsplugin-provisioner
 spec:
-  replicas: 2
   selector:
     matchLabels:
-      app: csi-rbdplugin-provisioner
+      app: csi-cephfsplugin-provisioner
+  replicas: 2
   template:
     metadata:
       labels:
-        app: csi-rbdplugin-provisioner
+        app: csi-cephfsplugin-provisioner
     spec:
       affinity:
         podAntiAffinity:
@@ -41,9 +37,9 @@ spec:
                   - key: app
                     operator: In
                     values:
-                      - csi-rbdplugin-provisioner
+                      - csi-cephfsplugin-provisioner
               topologyKey: "kubernetes.io/hostname"
-      serviceAccountName: rbd-csi-provisioner
+      serviceAccountName: cephfs-csi-provisioner
       priorityClassName: system-cluster-critical
       containers:
         - name: csi-provisioner
@@ -52,13 +48,26 @@ spec:
             - "--csi-address=$(ADDRESS)"
             - "--v=5"
             - "--timeout=150s"
-            - "--retry-interval-start=500ms"
             - "--leader-election=true"
-            #  set it to true to use topology based provisioning
+            - "--retry-interval-start=500ms"
             - "--feature-gates=Topology=false"
-            # if fstype is not specified in storageclass, ext4 is default
-            - "--default-fstype=ext4"
             - "--extra-create-metadata=true"
+          env:
+            - name: ADDRESS
+              value: unix:///csi/csi-provisioner.sock
+          imagePullPolicy: "IfNotPresent"
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+        - name: csi-resizer
+          image: k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
+          args:
+            - "--csi-address=$(ADDRESS)"
+            - "--v=5"
+            - "--timeout=150s"
+            - "--leader-election"
+            - "--retry-interval-start=500ms"
+            - "--handle-volume-inuse-error=false"
           env:
             - name: ADDRESS
               value: unix:///csi/csi-provisioner.sock
@@ -80,7 +89,7 @@ spec:
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
-        - name: csi-attacher
+        - name: csi-cephfsplugin-attacher
           image: k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
           args:
             - "--v=5"
@@ -94,36 +103,17 @@ spec:
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
-        - name: csi-resizer
-          image: k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
-          args:
-            - "--csi-address=$(ADDRESS)"
-            - "--v=5"
-            - "--timeout=150s"
-            - "--leader-election"
-            - "--retry-interval-start=500ms"
-            - "--handle-volume-inuse-error=false"
-          env:
-            - name: ADDRESS
-              value: unix:///csi/csi-provisioner.sock
-          imagePullPolicy: "IfNotPresent"
-          volumeMounts:
-            - name: socket-dir
-              mountPath: /csi
-        - name: csi-rbdplugin
+        - name: csi-cephfsplugin
           # for stable functionality replace canary with latest release version
-          image: quay.io/cephcsi/cephcsi:v3.5.0
+          image: quay.io/cephcsi/cephcsi:canary
           args:
             - "--nodeid=$(NODE_ID)"
-            - "--type=rbd"
+            - "--type=cephfs"
             - "--controllerserver=true"
             - "--endpoint=$(CSI_ENDPOINT)"
-            - "--csi-addons-endpoint=$(CSI_ADDONS_ENDPOINT)"
             - "--v=5"
-            - "--drivername=rbd.csi.ceph.com"
+            - "--drivername=cephfs.csi.ceph.com"
             - "--pidlimit=-1"
-            - "--rbdhardmaxclonedepth=8"
-            - "--rbdsoftmaxclonedepth=4"
             - "--enableprofiling=false"
           env:
             - name: POD_IP
@@ -134,62 +124,31 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            - name: POD_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-            # - name: KMS_CONFIGMAP_NAME
-            #   value: encryptionConfig
             - name: CSI_ENDPOINT
               value: unix:///csi/csi-provisioner.sock
-            - name: CSI_ADDONS_ENDPOINT
-              value: unix:///csi/csi-addons.sock
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
-            - mountPath: /dev
-              name: host-dev
-            - mountPath: /sys
-              name: host-sys
-            - mountPath: /lib/modules
-              name: lib-modules
+            - name: host-sys
+              mountPath: /sys
+            - name: lib-modules
+              mountPath: /lib/modules
               readOnly: true
-            - name: rbd-csi-config
-              mountPath: /etc/ceph-csi-config/
-            - name: ceph-csi-encryption-kms-config
-              mountPath: /etc/ceph-csi-encryption-kms-config/
-            - name: keys-tmp-dir
-              mountPath: /tmp/csi/keys
-            - name: ceph-rbd-config
+            - name: host-dev
+              mountPath: /dev
+            - name: ceph-config
               mountPath: /etc/ceph/
-        - name: csi-rbdplugin-controller
-          # for stable functionality replace canary with latest release version
-          image: quay.io/cephcsi/cephcsi:v3.5.0
-          args:
-            - "--type=controller"
-            - "--v=5"
-            - "--drivername=rbd.csi.ceph.com"
-            - "--drivernamespace=$(DRIVER_NAMESPACE)"
-          env:
-            - name: DRIVER_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-          imagePullPolicy: "IfNotPresent"
-          volumeMounts:
-            - name: rbd-csi-config
+            - name: cephfs-csi-config
               mountPath: /etc/ceph-csi-config/
             - name: keys-tmp-dir
               mountPath: /tmp/csi/keys
-            - name: ceph-rbd-config
-              mountPath: /etc/ceph/
         - name: liveness-prometheus
-          image: quay.io/cephcsi/cephcsi:v3.5.0
+          image: quay.io/cephcsi/cephcsi:canary
           args:
             - "--type=liveness"
             - "--endpoint=$(CSI_ENDPOINT)"
-            - "--metricsport=8680"
+            - "--metricsport=8681"
             - "--metricspath=/metrics"
             - "--polltime=60s"
             - "--timeout=3s"
@@ -205,25 +164,22 @@ spec:
               mountPath: /csi
           imagePullPolicy: "IfNotPresent"
       volumes:
-        - name: host-dev
-          hostPath:
-            path: /dev
+        - name: socket-dir
+          emptyDir: { medium: "Memory" }
         - name: host-sys
           hostPath:
             path: /sys
         - name: lib-modules
           hostPath:
             path: /lib/modules
-        - name: socket-dir
-          emptyDir: { medium: "Memory" }
-        - name: ceph-rbd-config
+        - name: host-dev
+          hostPath:
+            path: /dev
+        - name: ceph-config
           configMap:
-            name: ceph-rbd-config
-        - name: rbd-csi-config
+            name: ceph-config
+        - name: cephfs-csi-config
           configMap:
-            name: rbd-csi-config
-        - name: ceph-csi-encryption-kms-config
-          configMap:
-            name: ceph-csi-encryption-kms-config
+            name: cephfs-csi-config
         - name: keys-tmp-dir
           emptyDir: { medium: "Memory" }

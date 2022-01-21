@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+data:
+  config.json: |-
+    [{
+        "clusterID": "51299b01-c258-45e1-b03c-6f026df2e7ed",
+        "radosNamespace": "rancher-storage",
+        "monitors": [
+          "172.29.244.10:6789",
+          "172.29.244.11:6789",
+          "172.29.244.14:6789"
+        ]
+        }
+        ]
+metadata:
+  name: cephfs-csi-config
