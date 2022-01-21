@@ -1,37 +1,36 @@
-values:
-  query:
+query:
+  enabled: true
+  replicaCount: 2
+  replicaLabels:
+    - replica
+  dnsDiscovery:
+    sidecarsService: kube-prometheus-stack-thanos-discovery
+    sidecarsNamespace: monitoring
+  ingress:
     enabled: true
-    replicaCount: 2
-    replicaLabels:
-      - replica
-    dnsDiscovery:
-      sidecarsService: kube-prometheus-stack-thanos-discovery
-      sidecarsNamespace: monitoring
-    ingress:
-      enabled: true
-      hostname: thanos.twistedlife.space
-      annotations:
-        kubernetes.io/ingress.class: "ambassador"
-      tls: true
-  queryFrontend:
+    hostname: thanos.twistedlife.space
+    annotations:
+      kubernetes.io/ingress.class: "ambassador"
+    tls: true
+queryFrontend:
+  enabled: false
+bucketweb:
+  enabled: true
+compactor:
+  enabled: true
+  persistence:
     enabled: false
-  bucketweb:
+storegateway:
+  enabled: true
+  persistence:
     enabled: true
-  compactor:
+    size: 20Gi
+ruler:
+  enabled: false
+metrics:
+  enabled: true
+  serviceMonitor:
     enabled: true
-    persistence:
-      enabled: false
-  storegateway:
-    enabled: true
-    persistence:
-      enabled: true
-      size: 20Gi
-  ruler:
-    enabled: false
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
 valuesFrom:
   - kind: Secret
     name: "thanos-helm-values"
