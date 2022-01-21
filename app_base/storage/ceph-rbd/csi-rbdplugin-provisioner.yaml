@@ -155,13 +155,13 @@ spec:
             - mountPath: /lib/modules
               name: lib-modules
               readOnly: true
-            - name: ceph-csi-config
+            - name: rbd-csi-config
               mountPath: /etc/ceph-csi-config/
             - name: ceph-csi-encryption-kms-config
               mountPath: /etc/ceph-csi-encryption-kms-config/
             - name: keys-tmp-dir
               mountPath: /tmp/csi/keys
-            - name: ceph-config
+            - name: ceph-rbd-config
               mountPath: /etc/ceph/
         - name: csi-rbdplugin-controller
           # for stable functionality replace canary with latest release version
@@ -178,11 +178,11 @@ spec:
                   fieldPath: metadata.namespace
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
-            - name: ceph-csi-config
+            - name: rbd-csi-config
               mountPath: /etc/ceph-csi-config/
             - name: keys-tmp-dir
               mountPath: /tmp/csi/keys
-            - name: ceph-config
+            - name: ceph-rbd-config
               mountPath: /etc/ceph/
         - name: liveness-prometheus
           image: quay.io/cephcsi/cephcsi:v3.5.0
@@ -216,12 +216,12 @@ spec:
             path: /lib/modules
         - name: socket-dir
           emptyDir: { medium: "Memory" }
-        - name: ceph-config
+        - name: ceph-rbd-config
           configMap:
-            name: ceph-config
-        - name: ceph-csi-config
+            name: ceph-rbd-config
+        - name: rbd-csi-config
           configMap:
-            name: ceph-csi-config
+            name: rbd-csi-config
         - name: ceph-csi-encryption-kms-config
           configMap:
             name: ceph-csi-encryption-kms-config

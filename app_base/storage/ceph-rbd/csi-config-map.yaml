@@ -9,7 +9,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "ceph-csi-config"
+  name: "rbd-csi-config"
   namespace: storage
 data:
   config.json: |-

@@ -23,5 +23,5 @@ data:
   # keyring is a required key and its value should be empty
   keyring: |
 metadata:
-  name: ceph-config
+  name: ceph-rbd-config
   namespace: storage
