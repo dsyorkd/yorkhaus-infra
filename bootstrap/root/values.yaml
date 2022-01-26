@@ -1,0 +1,10 @@
+gitops:
+  repo: https://github.com/dsyorkd/yorkhaus-infra.git
+  revision: master
+stacks:
+  - name: bootstrap
+    namespace: argocd # Override default value
+  - name: storage
+  - name: observability
+  - name: ingress
+  - name: media
