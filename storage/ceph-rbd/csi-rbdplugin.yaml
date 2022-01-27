@@ -178,7 +178,7 @@ spec:
             path: /lib/modules
         - name: ceph-config
           configMap:
-            name: ceph-config
+            name: ceph-rbd-config
         - name: rbd-csi-config
           configMap:
             name: rbd-csi-config
