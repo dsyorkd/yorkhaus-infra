@@ -1,0 +1,9 @@
+apiVersion: v2
+name: influxdb
+type: application
+version: 0.1.0
+dependencies:
+  - name: influxdb
+    # renovate: registryUrl=https://grafana.github.io/helm-charts
+    version: "4.9.14"
+    repository: https://helm.influxdata.com/

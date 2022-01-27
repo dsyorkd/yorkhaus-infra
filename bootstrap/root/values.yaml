@@ -5,6 +5,10 @@ stacks:
   - name: bootstrap
     namespace: argocd # Override default value
   - name: storage
+    namespace: storage
   - name: observability
+    namespace: observability
   - name: ingress
+    namespace: ingress
   - name: media
+    namespace: media
