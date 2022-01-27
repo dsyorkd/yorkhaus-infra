@@ -26,7 +26,7 @@ loki-stack:
               period: 24h
       storage_config:
         aws:
-          s3: s3://minioS3@s3.twistedlife.space:9000/loki
+          s3: s3://minioS3:minioS3S3@s3.twistedlife.space:9000/loki
           s3forcepathstyle: true
         boltdb_shipper:
           active_index_directory: /data/loki/index
