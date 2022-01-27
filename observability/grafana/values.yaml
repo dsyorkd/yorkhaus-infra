@@ -124,7 +124,7 @@ grafana:
     datasources:
       enabled: true
       searchNamespace: ALL
-      # defaultDatasourceEnabled: false
+      defaultDatasourceEnabled: false
     dashboards:
       enabled: true
       searchNamespace: ALL
