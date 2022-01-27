@@ -6,7 +6,7 @@ grafana:
     configmap.reloader.stakater.com/reload: "grafana"
   persistence:
     enabled: true
-    storageClassName: "ceph-rbd-sc"
+    storageClassName: "csi-rbd-sc"
     size: 10Gi
     accessModes:
       - ReadWriteOnce
