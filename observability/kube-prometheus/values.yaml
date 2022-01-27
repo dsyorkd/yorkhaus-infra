@@ -1,4 +1,11 @@
 kube-prometheus:
+  server:
+    resources:
+      requests:
+        memory: 1500Mi
+        cpu: 25m
+      limits:
+        memory: 2000Mi
   namespaceOverride: "observability"
   prometheusOperator:
     createCustomResource: true
@@ -8,12 +15,7 @@ kube-prometheus:
     # configmapReloadImage:
     #   repository: jimmidyson/configmap-reload
     #   tag: v0.4.0
-    prometheusConfigReloader:
-      resources:
-        limits:
-          cpu: 200m
-    admissionWebhooks:
-      enabled: false
+    prometheusConfigReloaderCpu: 200m
   alertmanager:
     alertmanagerSpec:
       storage:
@@ -65,7 +67,11 @@ kube-prometheus:
       pagerduty-custom.tmpl: |-
         {{- define "pagerduty.custom.description" -}}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}{{- end -}}
   nodeExporter:
-    enabled: true
+    serviceMonitor:
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          targetLabel: instance
+          action: replace
   prometheus-node-exporter:
     prometheus:
       monitor:
@@ -97,6 +103,10 @@ kube-prometheus:
           targetLabel: instance
   kubeApiServer:
     enabled: true
+  kubeControllerManager:
+    enabled: false
+  kubeScheduler:
+    enabled: false
   prometheus:
     service:
       externalIPs: ["172.29.240.55"]
@@ -135,7 +145,7 @@ kube-prometheus:
       #   operator: "Exists"
       podMetadata:
         annotations:
-          backup.velero.io/backup-volumes: prometheus-kube-prometheus-stack-prometheus-db
+          #backup.velero.io/backup-volumes: prometheus-kube-prometheus-stack-prometheus-db
       thanos:
         image: quay.io/thanos/thanos:v0.24.0
         version: v0.24.0
@@ -163,7 +173,3 @@ kube-prometheus:
       enabled: true
     thanosServiceMonitor:
       enabled: true
-  valuesFrom:
-    - kind: Secret
-      name: "kube-prometheus-stack-helm-values"
-      optional: false
