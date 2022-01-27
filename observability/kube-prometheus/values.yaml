@@ -163,7 +163,7 @@ kube-prometheus:
       enabled: true
     thanosServiceMonitor:
       enabled: true
-#  valuesFrom:
-#    - kind: Secret
-#      name: "kube-prometheus-stack-helm-values"
-#      optional: false
+  valuesFrom:
+    - kind: Secret
+      name: "kube-prometheus-stack-helm-values"
+      optional: false

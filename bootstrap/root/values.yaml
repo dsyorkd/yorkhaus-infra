@@ -1,6 +1,6 @@
 gitops:
   repo: https://github.com/dsyorkd/yorkhaus-infra.git
-  revision: master
+  revision: HEAD
 stacks:
   - name: bootstrap
     namespace: argocd # Override default value
