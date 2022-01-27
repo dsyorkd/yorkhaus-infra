@@ -30,7 +30,7 @@ loki-stack:
           endpoint: s3.twistedlife.space:9000
           access_key_id: minioS3
           secret_access_key: minioS3S3
-          insecure: false
+          insecure: true
           sse_encryption: false
           http_config:
             insecure_skip_verify: true
