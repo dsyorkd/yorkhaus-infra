@@ -1,4 +1,4 @@
-kube-prometheus:
+kube-prometheus-stack:
   server:
     resources:
       requests:
@@ -6,7 +6,7 @@ kube-prometheus:
         cpu: 25m
       limits:
         memory: 2000Mi
-  namespaceOverride: "observability"
+  namespaceOverride: observability
   prometheusOperator:
     createCustomResource: true
     # prometheusConfigReloaderImage:
