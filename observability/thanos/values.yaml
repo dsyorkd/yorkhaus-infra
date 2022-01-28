@@ -1,37 +1,25 @@
-query:
-  enabled: true
-  replicaCount: 2
-  replicaLabels:
-    - replica
-  dnsDiscovery:
-    sidecarsService: kube-prometheus-stack-thanos-discovery
-    sidecarsNamespace: monitoring
-  ingress:
-    enabled: true
-    hostname: thanos.twistedlife.space
-    annotations:
-      kubernetes.io/ingress.class: "ambassador"
-    tls: true
-queryFrontend:
-  enabled: false
-bucketweb:
-  enabled: true
-compactor:
-  enabled: true
-  persistence:
-    enabled: false
-storegateway:
-  enabled: true
-  persistence:
-    enabled: true
-    size: 20Gi
-ruler:
-  enabled: false
-metrics:
-  enabled: true
-  serviceMonitor:
-    enabled: true
-valuesFrom:
-  - kind: Secret
-    name: "thanos-helm-values"
-    optional: false
+thanos:
+  query:
+    replicaCount: 2
+    replicaLabels:
+      - replica
+  compact:
+    retentionResolution1h: 5y
+  objstore:
+    type: S3
+    config:
+      bucket: "thanos"
+      endpoint: "s3.twistedlife.space:9000"
+      access_key: minioS3
+      secret_ket: minioS3S3 #testing :P
+      region: ""
+      insecure: true
+      signature_version2: false
+      put_user_metadata: {}
+      http_config:
+        idle_conn_timeout: 0s
+        response_header_timeout: 0s
+        insecure_skip_verify: true
+      trace:
+        enable: false
+      part_size: 0

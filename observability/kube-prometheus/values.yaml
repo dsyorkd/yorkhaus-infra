@@ -151,7 +151,7 @@ kube-prometheus-stack:
         version: v0.24.0
         objectStorageConfig:
           name: thanos-objstore-secret
-          key: objstore.yml
+          key: objstore.yaml
       resources:
         requests:
           memory: 2000Mi
