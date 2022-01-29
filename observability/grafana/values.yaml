@@ -182,7 +182,7 @@ grafana:
           database: graphitedb
   grafana.ini:
     server:
-      root_url: "https://grafana.twisted.life.space"
+      root_url: "https://twisted.life.space/grafana/"
     # security:
     #   admin_user: jeff@billimek.com
     paths:
