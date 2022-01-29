@@ -1,0 +1,11 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: influxdb-tls-mapping
+  namespace: observability
+spec:
+  hostname: "influxdb.twistedlife.space"
+  prefix: /
+  service: http://influxdb
+  allow_upgrade:
+    - websocket

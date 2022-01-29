@@ -1,0 +1,11 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: thanos-tls-mapping
+  namespace: observability
+spec:
+  hostname: "twistedlife.space"
+  prefix: /thanos/
+  service: http://thanos-query-frontend:9090
+  allow_upgrade:
+    - websocket

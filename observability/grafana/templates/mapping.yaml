@@ -1,0 +1,11 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: grafana-tls-mapping
+  namespace: observability
+spec:
+  hostname: "twistedlife.space"
+  prefix: /grafana/
+  service: http://grafana
+  allow_upgrade:
+    - websocket
