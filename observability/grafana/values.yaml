@@ -124,7 +124,7 @@ grafana:
     datasources:
       enabled: true
       searchNamespace: ALL
-      defaultDatasourceEnabled: false
+      # defaultDatasourceEnabled: true
     dashboards:
       enabled: true
       searchNamespace: ALL
@@ -140,7 +140,7 @@ grafana:
           type: prometheus
           access: proxy
           url: http://thanos-query-http:10902/
-          isDefault: false
+          isDefault: true
         - name: loki
           type: loki
           access: proxy
