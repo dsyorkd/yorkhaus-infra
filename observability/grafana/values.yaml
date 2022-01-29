@@ -144,7 +144,7 @@ grafana:
         - name: loki
           type: loki
           access: proxy
-          url: http://loki.logs.svc.cluster.local:3100
+          url: http://loki:3100
         - name: influxdb
           type: influxdb
           access: proxy
@@ -183,8 +183,8 @@ grafana:
   grafana.ini:
     server:
       root_url: "https://twisted.life.space/grafana/"
-    # security:
-    #   admin_user: jeff@billimek.com
+    security:
+      admin_user: syork@yorkserv.com
     paths:
       data: /var/lib/grafana/data
       logs: /var/log/grafana
@@ -197,4 +197,4 @@ grafana:
     grafana_net:
       url: https://grafana.net
     auth.basic:
-      disable_login_form: true
+      disable_login_form: false
