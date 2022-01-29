@@ -5,10 +5,10 @@ metadata:
     sealedsecrets.bitnami.com/namespace-wide: "true"
   creationTimestamp: null
   name: loki-s3-values
-  namespace: loki
+  namespace: observability
 spec:
   encryptedData:
-    s3: AgCwTgY7OY6BboWFoDHGJlevS07b/ScIKtSNBYpqmoPxzlQFrqSH7cK18aiXGTDf0rrUw2b2rh942FmQCM4SibJbSIgccPIyTvEtJaQeAsJfOqZkbZQYDKKq6NT2Kz0FPLWq+1JshmrflWDn9SDQpUxSLiKiYJNuL0bSEslGWloZ6FnaiPCXAf0QjQ60t2qqway107wW+r90if7WGsBnfbt5Xl698ujTqg4Vqv0l9tx0hCXPGZM18jzf8i/rDdhmflLxnGV61dgDqhA7boOdPab6NJatidyF/LAuc9LEZbh3RSadWCGZLwOqdWjziHwKXx5VUsDb3MaTwHtYm0dI3+J0GmyxfCGq2/I230ZCm2456MUeKNOILJchrckfqEVk7P6vLGJPEk98Mdv6/FHl/vuP+diGf1RORCSRitEBIRTj3AH6J+BuTCfx/gGcqEK3AmpdhVf55D612cGg1P28uPGYhGNw7vxRpzEWzMp40U7SmkjxI4I7T8Q0I/dBNqZpmhiafomJ1owzYfa50/Wa8y+3clgothKqop7GJaO3573o6eY6ug0g7IJruaFud9A3Z8HvLXQdghwka8l+NallKnJV3SxEXiCNw5VGAoQogHDI1dQS+He17KeVEt2wdrGTAHasxslHi8VcxsY/fW1dSlefC7cWdbBLhbVX5zA8Ogb8YyC1dexCGL8KjkvEcag/+idXRgMD09tHm/z5c2LmoH24KEUT87Gc7MN3DDmxTNNLn6T1h1FXE8oxvmqMPR4iw5Y4Y6K8
+    s3: AgB4hkJfA5d5TivabNh0HtYkGL5Lm0/jhmFsv/jgt2IOy/YdTltYXaJm+EudZ45n7Emh+I3XJX+/ilfSu8UgXU4VjenMKu/8iDy9/gRZmKPGAhbSuCtc04DvYQdftd4MDLfrTFPw2LbTUw+wAko+Q3YGdYZE5A4eosD1XaNEhZOQQgzCdteNQXWuUhx52IxlHyRDWSorBcnhAtL04nLVseQAPLVDDlt+JGfMopktCeX8BjB3lVWVX6ceY9gEJKK53XAXkMfSk5CH4a0TP7YbTnZca3J35TuP2T41h6c7E/pVyTXZrkXkgZpMJ2mJEKRnzKJL3UrrV9RFrK2ftdlLCQgJe25gbu1y+ICssshO4zZtOqrLUcvMGZghuHE8mcGt5TZK+RMMIsdC7SiJ1Xx4nXT7M8W3P/6nzV2vUfn3XswueaOYpZ1DQkwWTwrPhnFhR4+l95uS/4Xry4guBWCPajpVNt+wqfQKfbhNq1LfFf2qqUImzjk6EHq848XzvJivpJi4mx0agO8lQmceKuVyhntzqu/5Q9jVWpUd2BM5c4Zje2g1CmDDlY78w6JVPjjon9rFtyZvKckvqgAWRgP//rwuQV4WzKZNV68b2dlwUeaqylkTUsWw7C0G+5GlEEgyEIW06F5YaukQO3PGc88+jQlWXcXfWVkPD0LTG56APeg2dTOOQHI6Q53X6Psy23lwhUiXIlf+tZ4r2h9Y0SqrIJBxPA9H1OeOn3FWpYgGLNgrREMAhdalVp3ph3c0lfLgWuVMiWQD
   template:
     data: null
     metadata:
@@ -16,5 +16,5 @@ spec:
         sealedsecrets.bitnami.com/namespace-wide: "true"
       creationTimestamp: null
       name: loki-s3-values
-      namespace: loki
+      namespace: observability
 
