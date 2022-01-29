@@ -4,8 +4,8 @@ metadata:
   name: thanos-tls-mapping
   namespace: observability
 spec:
-  hostname: "twistedlife.space"
-  prefix: /thanos/
+  hostname: "thanos.twistedlife.space"
+  prefix: /
   service: http://thanos-query-frontend:9090
   allow_upgrade:
     - websocket

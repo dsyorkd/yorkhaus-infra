@@ -181,8 +181,12 @@ grafana:
           url: http://influxdb:8086
           database: graphitedb
   grafana.ini:
+    auth.proxy:
+      enabled: true
     server:
       root_url: "https://twisted.life.space/grafana/"
+      serve_from_sub_path: true
+      enabl_gzip: true
     security:
       admin_user: syork@yorkserv.com
     paths:
@@ -197,4 +201,4 @@ grafana:
     grafana_net:
       url: https://grafana.net
     auth.basic:
-      disable_login_form: false
+      disable_login_form: true

@@ -1,0 +1,16 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Filter
+metadata:
+  name: azure-ad
+spec:
+  OAuth2:
+    # Azure AD openid-configuration endpoint can be found at https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration
+    authorizationURL: https://login.microsoftonline.com/05fe223a-f14e-402c-b746-c05891cd9c24/v2.0
+    # Client ID from step 3 above
+    clientID: 2b03b70a-c4ab-433b-8432-8fd9e09c3bf4
+    # Secret created in step 5 above
+    secretName: auth-generic-oauth-secret
+    secretNamespace: ingress
+    # The protectedOrigin is the scheme and Host of your Ambassador Edge Stack endpoint
+    protectedOrigins:
+      - origin: https://twistedlife.space

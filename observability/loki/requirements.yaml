@@ -1,5 +1,0 @@
-dependencies:
-  - name: loki-stack
-    # renovate: registryUrl=https://grafana.github.io/helm-charts
-    version: v2.1.0
-    repository: https://grafana.github.io/helm-charts
