@@ -1,0 +1,25 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: rancher-tls-mapping
+  namespace: cattle-system
+spec:
+  hostname: "rancher.twistedlife.space"
+  prefix: /
+  service: https://rancher
+  allow_upgrade:
+    - websocket
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rancher.twistedlife.space
+  namespace: cattle-system
+spec:
+  secretName: tls-rancher-ingress
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - rancher.twistedlife.space

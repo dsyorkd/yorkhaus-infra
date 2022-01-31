@@ -1,0 +1,15 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Host
+metadata:
+  name: rancher-host
+  namespace: cattle-system
+spec:
+  hostname: rancher.twistedlife.space
+  acmeProvider:
+    authority: none
+  tlsSecret:
+    name: tls-rancher-ingress
+  selector:
+    matchLabels:
+      hostname: rancher

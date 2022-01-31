@@ -1,0 +1,24 @@
+apiVersion: getambassador.io/v3alpha1
+kind: Mapping
+metadata:
+  name: argo-tls-mapping
+  namespace: argocd
+spec:
+  hostname: "argocd.twistedlife.space"
+  prefix: /
+  service: http://argocd-server
+  allow_upgrade:
+    - websocket
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd.twistedlife.space
+  namespace: argocd
+spec:
+  secretName: tls-rancher-ingress
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - argocd.twistedlife.space

@@ -1,0 +1,8 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Module
+metadata:
+  name: ambassador
+spec:
+  config:
+    forward_client_cert_details: "SANITIZE"
