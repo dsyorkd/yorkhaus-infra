@@ -14,7 +14,7 @@ thanos:
       bucket: "thanos"
       endpoint: "s3.twistedlife.space:9000"
       access_key: minioS3
-      secret_ket: minioS3S3 #testing :P
+      secret_key: minioS3S3 #testing :P
       region: ""
       insecure: true
       signature_version2: false
