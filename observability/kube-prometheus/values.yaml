@@ -139,7 +139,7 @@ kube-prometheus-stack:
             storageClassName: csi-rbd-sc
             resources:
               requests:
-                storage: 10Gi
+                storage: 50Gi
       # tolerations:
       # - key: "arm"
       #   operator: "Exists"
@@ -151,7 +151,7 @@ kube-prometheus-stack:
         version: v0.24.0
         objectStorageConfig:
           name: thanos-objstore-secret
-          key: objstore.yaml
+          key: objstore.yml
       resources:
         requests:
           memory: 2000Mi
