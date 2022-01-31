@@ -8,7 +8,7 @@ thanos:
       - replica
   compact:
     retentionResolution1h: 5y
-  objstore:
+  objstoreConfig:
     type: S3
     config:
       bucket: "thanos"
