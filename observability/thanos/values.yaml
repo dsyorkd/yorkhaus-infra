@@ -28,6 +28,8 @@ thanos:
       part_size: 0
   ruler:
     enabled: true
+    persistence:
+      storageClass: csi-rbd-sc
     alertmanagers:
       - http://kube-prometheus-alertmanager:9093
     config: |-
@@ -36,7 +38,7 @@ thanos:
           rules:
             - alert: "PrometheusDown"
               expr: absent(up{prometheus="observability/kube-prometheus"})
-metrics:
-  enabled: true
-  serviceMonitor:
+  metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
