@@ -6,6 +6,6 @@ metadata:
 spec:
   hostname: "influxdb.twistedlife.space"
   prefix: /
-  service: http://influxdb
+  service: http://influxdb:8086
   allow_upgrade:
     - websocket
