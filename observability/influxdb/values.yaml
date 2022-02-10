@@ -7,7 +7,7 @@ influxdb:
   persistence:
     enabled: true
     size: 50Gi
-    storageClass: csi-rbd-sc
+    storageClass: longhorn-sc
   resources:
     requests:
       memory: 2000Mi

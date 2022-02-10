@@ -7,5 +7,6 @@ spec:
   hostname: "twistedlife.space"
   prefix: /loki/
   service: http://loki:3100
+  resolver: endpoint
   allow_upgrade:
     - websocket

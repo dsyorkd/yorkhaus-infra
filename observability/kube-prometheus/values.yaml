@@ -21,7 +21,7 @@ kube-prometheus-stack:
       storage:
         volumeClaimTemplate:
           spec:
-            storageClassName: csi-rbd-sc
+            storageClassName: longhorn-sc
             resources:
               requests:
                 storage: 10Gi
@@ -136,7 +136,7 @@ kube-prometheus-stack:
       storageSpec:
         volumeClaimTemplate:
           spec:
-            storageClassName: csi-rbd-sc
+            storageClassName: longhorn-sc
             resources:
               requests:
                 storage: 50Gi

@@ -4,11 +4,13 @@ gitops:
 stacks:
   - name: bootstrap
     namespace: argocd # Override default value
+  - name: ambassador
+    namespace: ambassador
+  - name: ingress
+    namespace: ingress
   - name: storage
     namespace: storage
   - name: observability
     namespace: observability
-  - name: ingress
-    namespace: ingress
   - name: media
     namespace: media

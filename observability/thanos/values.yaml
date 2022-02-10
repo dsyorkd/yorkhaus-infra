@@ -29,7 +29,7 @@ thanos:
   ruler:
     enabled: true
     persistence:
-      storageClass: csi-rbd-sc
+      storageClass: longhorn-sc
     alertmanagers:
       - http://kube-prometheus-alertmanager:9093
     config: |-

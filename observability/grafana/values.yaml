@@ -6,7 +6,7 @@ grafana:
     configmap.reloader.stakater.com/reload: "grafana"
   persistence:
     enabled: true
-    storageClassName: "csi-rbd-sc"
+    storageClassName: "longhorn-sc"
     size: 10Gi
     accessModes:
       - ReadWriteOnce
@@ -50,20 +50,6 @@ grafana:
         url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/grafana/dashboards/cable_modem_stats.json
         # datasource: cable_modem_stats
       # Ref: https://grafana.com/grafana/dashboards/2842
-      ceph-cluster:
-        gnetId: 2842
-        revision: 14
-        datasource: Prometheus
-      # Ref: https://grafana.com/grafana/dashboards/5336
-      ceph-osd:
-        gnetId: 5336
-        revision: 5
-        datasource: Prometheus
-      # Ref: https://grafana.com/grafana/dashboards/5342
-      ceph-pools:
-        gnetId: 5342
-        revision: 5
-        datasource: Prometheus
       home-assistant:
         url: https://raw.githubusercontent.com/billimek/k8s-gitops/master/monitoring/grafana/dashboards/home_assistant.json
         datasource: home_assistant

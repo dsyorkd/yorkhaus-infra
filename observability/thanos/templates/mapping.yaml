@@ -7,5 +7,6 @@ spec:
   hostname: "thanos.twistedlife.space"
   prefix: /
   service: http://thanos-query-frontend:9090
+  resolver: endpoint
   allow_upgrade:
     - websocket

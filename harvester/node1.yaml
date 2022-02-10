@@ -1,0 +1,24 @@
+os:
+  ssh_authorized_keys:
+    - github:dsyorkd
+  modules:
+    - kvm
+  sysctls:
+    kernel.printk: "4 4 1 7"
+    kernel.kptr_restrict: "1"
+  dns_nameservers:
+    - 172.29.240.3
+  ntp_servers:
+    - virginia.twistedlife.space
+    - 0.us.pool.ntp.org
+    - 1.us.pool.ntp.org
+  password: rancher
+install:
+  mode: create
+  device: /dev/sde
+  silent: true
+  debug: false
+  tty: ttyS0
+  no_data_partition: false
+system_settings:
+  auto-disk-provision-paths: ""

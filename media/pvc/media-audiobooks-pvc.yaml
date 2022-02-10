@@ -2,9 +2,9 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nfs-media-audiobooks-pv
-  namespace: storage
+  namespace: media
 spec:
-  storageClassName: media-audiobooks
+  storageClassName: ""
   capacity:
     storage: 1Mi
   accessModes:
@@ -28,7 +28,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: media-audiobooks
+  storageClassName: ""
   resources:
     requests:
       storage: 1Mi

@@ -1,0 +1,8 @@
+apiVersion: v2
+description: Plex Media Server
+name: plex
+version: 0.0.0
+dependencies:
+  - name: plex
+    version: 6.2.0
+    repository: https://github.com/k8s-at-home/charts/tree/master/charts/stable/plex
